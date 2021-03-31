@@ -38,7 +38,7 @@ Die Befehle im Abschnitt [Befehle die immer funktionieren müssen](#befehle-die-
 
 ![image](.github/images/commit.PNG)
 
-Bei einem Pull Request muss nur der Workflow **clean, build, test & package all projects** funktionieren. Es ist normal, dass zunächst die anderen Workflows fehlschlagen siehe:
+Bei einem Pull Request muss vor der Belegpräsentation nur der Workflow **clean, build, test & package all projects** funktionieren. Es ist normal, dass zunächst die anderen Workflows fehlschlagen, da die Testdatein fehlen siehe:
 
 ![image](.github/images/pull-request.PNG)
 
