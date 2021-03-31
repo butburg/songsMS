@@ -12,10 +12,9 @@
 
 - cURL (optional)
 
-##  Teampartnersuche
+##  Teampartnersuche und Repository Einrichtung
 
-Person suchen, mit der Sie in diesem Semester in KBE zusammenarbeiten werden 
-
+Person suchen, mit der Sie in diesem Semester in KBE zusammenarbeiten werden:
 - Teamnamen aussuchen 
 - Ein Teammitglied richtet das KBE-Repository ein. Forken Sie dazu das Template-Repository. Das Repository sollte auf privat gesetzt werden und der Repository-Name sollte gleich dem Teamnamen "TEAMNAME" sein. Fügen Sie außerdem das andere Teammitglied als Contributer/Collaborator hinzu. 
 - Folgen sie den Anweisungen in der `README.md` um das Repository einzurichten
