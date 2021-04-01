@@ -54,7 +54,7 @@ In diesem Repository werden die Belegaufgaben und die Testdateien hochgeladen. D
 cd PFAD_ZUM_REPOSITORY
 
 # den kbe Remote setzen (muss man nur einmal machen)
-git remote add kbe https://github.com/htwb-kbe/htwb-kbe-repo-template.git
+git remote add kbe https://github.com/htw-kbe-sose2021/htw-kbe-sose2021-template
 ```
 
 ### Für Belegaufgaben
