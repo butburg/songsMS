@@ -20,6 +20,7 @@ git clone LINK_ZUM_REPOSITORY
 
 3. Ersetzen Sie die Überschrift in `README.md `mit `TEAMNAME`
 4. Geben Sie Ihre Teammitglieder in die Tabelle der `README.md` ein
+5. Ändern sie den Namen des Repositories zu ihrem Teamnamen
 6. Folge den Anweisungen in der `pom.xml`. Achten sie auch auf die `pom.xml` in den Unterordnern wie z.B. `runmerunner/pom.xml`
 7. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus.
 8. Fügen sie ihre lokalen Änderungen in das Repository hinzu.
