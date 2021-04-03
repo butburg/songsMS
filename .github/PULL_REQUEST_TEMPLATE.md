@@ -3,6 +3,8 @@
 ## Checklist
 - [ ] Ist **htwb-steven** als Reviewer eingetragen?
 - [ ] Ist der Workflow `projects.yml` erfolgreich?
+- [ ] Hiermit versichere ich, dass ich die vorliegende Arbeit selbstständig und nur unter Verwendung der angegebenen Quellen und Hilfsmittel verfasst habe. 
+
 
 ## Für Beleg 2, 3, 4
 
