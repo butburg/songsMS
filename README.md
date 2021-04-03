@@ -22,7 +22,7 @@ git clone LINK_ZUM_REPOSITORY
 4. Geben Sie Ihre Teammitglieder in die Tabelle der `README.md` ein
 5. Ändern sie den Namen des Repositories zu ihrem Teamnamen
 6. Folge den Anweisungen in der `pom.xml`. Achten sie auch auf die `pom.xml` in den Unterordnern wie z.B. `runmerunner/pom.xml`
-7. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus.
+7. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus. Diese Befehle sollten nach ihren Änderungen funktionieren.
 8. Fügen sie ihre lokalen Änderungen in das Repository hinzu.
 9. Lesen sie sich die genau `README.md` durch.
 
