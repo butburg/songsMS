@@ -19,9 +19,7 @@
 
 ### Beispielanfragen
 
-Für jede **implementierte Anfrage** soll folgendes Template angewendet werden:
-
-
+Jede **implementierte Anfrage** soll mit folgenden Template dokumentiert werden:
 
 #### Template Für GET, DELETE Methoden
 ```
@@ -29,8 +27,6 @@ curl -X GET \
      -H "Accept: application/json" \
      -v "http://localhost:8080/hallo
 ```
-
-
 
 #### Template für POST, PUT Methoden
 ```
