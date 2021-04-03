@@ -16,8 +16,7 @@
 
 ### Anwendung
 
-- Link zur Anwendung:
-- Erledigte Zusatzaufgaben:
+- Link zur Anwendung (falls vorhanden):
 
 ### Beispielanfragen
 
