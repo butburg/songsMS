@@ -16,8 +16,7 @@
 
 Person suchen, mit der Sie in diesem Semester in KBE zusammenarbeiten werden:
 - Teamnamen aussuchen 
-- Ein Teammitglied richtet das KBE-Repository ein. Forken Sie dazu das Template-Repository. Das Repository sollte auf privat gesetzt werden und der Repository-Name sollte gleich dem Teamnamen "TEAMNAME" sein. Fügen Sie außerdem das andere Teammitglied als Contributer/Collaborator hinzu. 
-- Folgen sie den Anweisungen in der `README.md` um das Repository einzurichten
+- Ein Teammitglied richtet das KBE-Repository ein. Folgen Sie dazu die Anweisungen im Template-Repository. Das Repository sollte auf privat gesetzt werden. Der Repository-Name sollte dem Teamnamen entsprechen und das Repository muss sich in der GitHub Organisation befinden. Fügen Sie außerdem das andere Teammitglied als Contributer/Collaborator hinzu. 
 - Tragen Sie sich als Team in die Liste in Moodle ein
 - Falls Sie keine(n) Partner_in haben sollten, haben Sie zwei Möglichkeiten: 
   1. Sie tragen sich in Spalte „Teammitglied 1“ ein und in die Spalte „Teammitglied 2“: „Suche Partner/in aus Zug N“ (N = 1 oder 2, der Zug in dem Sie eingetragen sind) 
