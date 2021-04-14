@@ -1,9 +1,9 @@
-# KBE Projekt Template
+# sevenfour
 
 | Name          | Matrikelnummer  |
 | :------------ | --------------- |
-| TEAMMITGLIED1 | MATRIKELNUMMER1 |
-| TEAMMITGLIED2 | MATRIKELNUMMER2 |
+| Philipp Saal  | 555915 |
+| Edwin Wiese   | 570900 |
 
 
 
@@ -13,12 +13,12 @@
     ```bash
     git clone LINK_ZUM_TEMPLATE_REPOSITORY
     ```
-1. Ersetzen Sie die Überschrift in `README.md `mit `TEAMNAME`
+1. Ersetzen Sie die Überschrift in `README.md `mit `sevenfour`
 1. Geben Sie Ihre Teammitglieder in die Tabelle der `README.md` ein
-1. Ändern sie den Namen des Repositories zu ihrem Teamnamen
+1. Ändern sie den Namen des Repositories zu ihrem sevenfourn
 1. Folge den Anweisungen in der `pom.xml`. Achten sie auch auf die `pom.xml` in den Unterordnern wie z.B. `runmerunner/pom.xml`
 1. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus. Diese Befehle sollten nach ihren Änderungen funktionieren.
-1. Erstelle ein privates Repository mit `TEAMNAME`
+1. Erstelle ein privates Repository mit `sevenfour`
 1. Fügen sie ihre lokalen Änderungen in das Repository hinzu:
     ```bash
     cd PFAD_ZUM_REPOSITORY
