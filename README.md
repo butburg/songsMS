@@ -15,7 +15,6 @@
     ```
 1. Ersetzen Sie die Überschrift in `README.md `mit `TEAMNAME`
 1. Geben Sie Ihre Teammitglieder in die Tabelle der `README.md` ein
-1. Ändern sie den Namen des Repositories zu ihrem Teamnamen
 1. Folge den Anweisungen in der `pom.xml`. Achten sie auch auf die `pom.xml` in den Unterordnern wie z.B. `runmerunner/pom.xml`
 1. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus. Diese Befehle sollten nach ihren Änderungen funktionieren.
 1. Erstelle ein privates Repository mit `TEAMNAME`
@@ -81,7 +80,7 @@ git push origin main
 # zum Repository gehen
 cd PFAD_ZUM_REPOSITORY
 
-# In den Main Branch wechseln und updates erhalten
+# In den Beleg Branch wechseln und updates erhalten
 git checkout BELEG_BRANCH
 
 # Updates holen
