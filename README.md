@@ -18,13 +18,16 @@
 1. Folge den Anweisungen in der `pom.xml`. Achten sie auch auf die `pom.xml` in den Unterordnern wie z.B. `runmerunner/pom.xml`
 1. Führe die Befehle in [Befehle die immer funktionieren müssen](#befehle-die-immer-funktionieren-müssen) aus. Diese Befehle sollten nach ihren Änderungen funktionieren.
 1. Erstelle ein privates Repository mit `TEAMNAME`
-1. Fügen sie ihre lokalen Änderungen in das Repository hinzu:
+1. Fügen sie ihre lokalen Änderungen in das Repository hinzu. Sie können z.B. folgendes machen:
     ```bash
     cd PFAD_ZUM_REPOSITORY
+    git add -A
+    git commit -m "init"
     git remote remove origin
     git remote add origin LINK_ZUM_EIGENEN_REPOSITORY
     git push origin main
     ```
+    Generell ist es ihnen überlassen wie sie ihre Commits erstellen.
 1. Lesen sie sich die genau `README.md` durch.
 
 ## Konventionen für Branch Namen
