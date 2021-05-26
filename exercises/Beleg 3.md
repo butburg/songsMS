@@ -92,4 +92,4 @@ Der Prototyp für einen Songs-Webservice ist vom Management der SONGSANDO GmbH g
 - DI nutzen und die DAOs in die entsprechenden Controller injizieren
 - Unit-Tests für alle public-Methoden der Controller-Klassen
 - Ihr Code nutzt eine logische/praktische Package-Strukturs
-- Die Datenbank ist öffentlich zugänglich. Sie können z.B. ihre Datenbank bei Heroku, AWS, Google Cloud, ... hosten.
+- Es soll weiterhin eine relationale Datenbank genutzt werden. Die Datenbank ist öffentlich zugänglich. Sie können z.B. ihre Datenbank bei Heroku, AWS, Google Cloud, ... hosten.
