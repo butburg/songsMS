@@ -28,8 +28,6 @@ Der Prototyp für einen Songs-Webservice ist vom Management der SONGSANDO GmbH g
 
 ### Teil 2: Implementierung des Endpoints /songsWS-TEAMNAME/rest/auth
 
-**Erst wenn Sie mit Teil 1 fertig sind, dürfen Sie mit Teil 2 anfangen. Hier soll es um den ‘auth’-Endpoint Ihres Webservices gehen.** 
-
 1. In Ihrer Datenbank legen Sie sich bitte eine Tabelle für die Nutzer/innen Ihres Webservices an:
 
    ```SQL
