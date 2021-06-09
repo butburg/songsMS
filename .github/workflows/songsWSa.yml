@@ -36,14 +36,6 @@ jobs:
           architecture: x64
       - name: songsWS clean, build, test & package
         run: mvn -pl songsWS clean package
-      - name: add self signed certificate and settings
-        run: |
-          docker cp ./songsWS/ssl/.keystore tomcat:/etc/ssl/certs/
-          docker cp ./songsWS/ssl/server.xml tomcat:/usr/local/tomcat/conf/
-          docker stop tomcat
-          docker start tomcat
-          docker exec tomcat ls /etc/ssl/certs/
-          docker exec tomcat ls /usr/local/tomcat/
       - name: move .war to Tomcat container
         run: |
           docker cp ./songsWS/target/songsWS-*.war tomcat:/usr/local/tomcat/webapps
