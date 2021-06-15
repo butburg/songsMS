@@ -62,5 +62,4 @@ Zum Verständnis der Anforderungen nehmen wir an, dass
       - Die privaten Liste von mmuster muss die Songs mit der id 4 und 5 enthalten
 6. eschuler besitzt eine private (id=3) und eine public Songliste (id=4) 
 7. Bei den **Unit/Integration-Tests** muss als Test-Datenbanksystem HSQLDB **(**[**http://hsqldb.org/**](http://hsqldb.org/)**)** genutzt werden.
-8. Der **GitVersionController muss funktionieren**. Code dafür wird in Moodle hochgeladen. Der Controller ist über `songsWS-TEAMNAME/rest/version` erreichbar.
-9. Sie müssen ihren Service auf einen Cloud-Anbieter bereitstellen. 
+8. Sie müssen ihren Service auf einen Anbieter bereitstellen. 
