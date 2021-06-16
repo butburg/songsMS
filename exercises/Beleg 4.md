@@ -27,8 +27,7 @@ D.h., eine Songliste hat einen Namen, gehört einer Owner-Person und kann “pri
 **Der neue Endpunkt kann wie folgt erreicht werden:**
 
 - `/songsWS-TEAMNAME/rest/songLists/`                
-- `/songsWS-TEAMNAME/rest/songLists?userId=SOME_USERID`
-
+- 
 Zum Verständnis der Anforderungen nehmen wir an, dass 
 
 - User mmuster hat sich bei Ihrem Service erfolgreich angemeldet und den Token `qwertyuiiooxd1a245` erhalten.
@@ -57,9 +56,8 @@ Zum Verständnis der Anforderungen nehmen wir an, dass
 
       - `DELETE /rest/songLists/33` von User ‘mmuster’ requested, aber 33 gehört eschuler, soll von Ihrem Service mit HTTP-StatusCode 403 (FORBIDDEN) abgewiesen werden. 
 4. **PUT von Songlisten muss nicht implementiert werden.**
-5. **mmuster und eschuler müssen in Ihrer DB jeweils 2 Songlisten besitzen**
+5. **mmuster und eschuler müssen in Ihrer DB jeweils 2 Songlisten besitzen. Die Songlisten sollten mindestens 2 Songs enthalten**
    1. mmuster besitzt eine private (id=1) und eine public Songliste (id=2) 
-      - Die privaten Liste von mmuster muss die Songs mit der id 4 und 5 enthalten
-6. eschuler besitzt eine private (id=3) und eine public Songliste (id=4) 
-7. Bei den **Unit/Integration-Tests** muss als Test-Datenbanksystem HSQLDB **(**[**http://hsqldb.org/**](http://hsqldb.org/)**)** genutzt werden.
-8. Sie müssen ihren Service auf einen Anbieter bereitstellen. 
+   2. eschuler besitzt eine private (id=3) und eine public Songliste (id=4) 
+6. Bei den **Unit/Integration-Tests** muss als Test-Datenbanksystem HSQLDB **(**[**http://hsqldb.org/**](http://hsqldb.org/)**)** genutzt werden.
+7. Sie müssen ihren Service auf einen Anbieter bereitstellen. 
