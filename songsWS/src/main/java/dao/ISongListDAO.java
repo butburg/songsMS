@@ -1,5 +1,6 @@
 package dao;
 
+import model.Song;
 import model.SongList;
 import org.springframework.stereotype.Repository;
 
@@ -20,6 +21,8 @@ public interface ISongListDAO{
     SongList findSongList(Integer identifier);
 
     List<SongList> findAllSongListsOf(String owner);
+
+    void updateSongList(SongList songList);
 
     void deleteSongList(Integer id) throws PersistenceException;
 }

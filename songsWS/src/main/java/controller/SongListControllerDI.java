@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.persistence.EntityNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
@@ -56,14 +57,14 @@ public class SongListControllerDI {
     //GET /rest/songLists?userId=usergibtsnicht: schickt HTTP-Statuscode 404 zurück.
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongListByUser(
-            @RequestParam(required = false, name = "userId") String userId, @RequestHeader("Authorization") String authToken) throws IOException {
+            @RequestParam(required = false, name = "userId") String userId, @RequestHeader("Authorization") String authToken) {
         User owner = tokenToAuthUser(authToken);
 
         if (owner == null) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
 
-        if (userId == null){
+        if (userId == null) {
             List<SongList> songLists = songListDAO.findAllSongListsOf(owner.getUserId());
             if (songLists != null) {
                 return new ResponseEntity<Object>(songLists, HttpStatus.OK);
@@ -97,7 +98,7 @@ public class SongListControllerDI {
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongList(
-            @PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) throws IOException {
+            @PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         User owner = tokenToAuthUser(authToken);
         if (owner == null) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -107,7 +108,7 @@ public class SongListControllerDI {
         if (songList != null) {
             if (owner.getUserId().equals(songList.getOwnerId()) || !songList.isPrivate()) {
                 return new ResponseEntity<Object>(songList, HttpStatus.OK);
-            }else{
+            } else {
                 return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
             }
         }
@@ -145,6 +146,28 @@ public class SongListControllerDI {
             HttpHeaders header = new HttpHeaders();
             header.setLocation(URI.create("/rest/songLists/" + id));
             return new ResponseEntity<Object>(songList, header, HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+    }
+
+    // PUT
+    // Eingabeformat JSON
+    // Update nur, wenn songList id in URL gleich „id“ in Payload
+    // Wenn Update erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
+
+    @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
+    public ResponseEntity<Object> updateSongList(@RequestBody SongList songList, @PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
+        if (tokenToAuthUser(authToken) == null) {
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
+        if (id.equals(songList.getId())) {
+            try {
+                songListDAO.updateSongList(songList);
+                return new ResponseEntity<Object>(songList, HttpStatus.NO_CONTENT);
+            } catch (EntityNotFoundException ex) {
+                return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }

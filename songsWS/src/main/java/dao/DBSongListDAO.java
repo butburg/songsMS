@@ -18,7 +18,9 @@ public class DBSongListDAO implements ISongListDAO {
         emf = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
     }
 
-    public DBSongListDAO(EntityManagerFactory emf){this.emf = emf;}
+    public DBSongListDAO(EntityManagerFactory emf) {
+        this.emf = emf;
+    }
 
     @Transactional
     @Override
@@ -74,6 +76,45 @@ public class DBSongListDAO implements ISongListDAO {
         }
     }
 
+    @Transactional
+    @Override
+    public void updateSongList(SongList songList) throws EntityNotFoundException {
+        EntityManager em = null;
+        EntityTransaction transaction = null;
+        try {
+            SongList songListNew = findSongList(songList.getId());
+            if (songListNew != null) {
+                songListNew.setPrivate(songList.isPrivate());
+                if (songList.getName() != null) {
+                    songListNew.setName(songList.getName());
+                }
+                if (songList.getOwnerId() != null) {
+                    songListNew.setOwnerId(songList.getOwnerId());
+                }
+                if (songList.getSongList() != null) {
+                    songListNew.setSongList(songList.getSongList());
+                }
+
+                em = emf.createEntityManager();
+                transaction = em.getTransaction();
+                transaction.begin();
+                em.merge(songListNew);
+                transaction.commit();
+            } else {
+                throw new EntityNotFoundException();
+            }
+        } catch (IllegalStateException | RollbackException ex) {
+            if (em != null) {
+                em.getTransaction().rollback();
+            }
+            throw new PersistenceException(ex.getMessage());
+        } finally {
+            if (em != null) {
+                em.close();
+            }
+        }
+    }
+
     @Override
     public void deleteSongList(Integer id) throws PersistenceException {
         EntityManager em = null;
@@ -92,7 +133,7 @@ public class DBSongListDAO implements ISongListDAO {
             }
         } catch (Exception e) {
             System.out.println("Error removing song: " + e.getMessage());
-            throw new PersistenceException("Could not remove entity: " + e.toString());
+            throw new PersistenceException("Could not remove entity: " + e);
         } finally {
             if (em != null) {
                 em.close();
