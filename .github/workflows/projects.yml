@@ -21,11 +21,7 @@ jobs:
       with:
         java-version: ${{ matrix.java }}
         java-package: jdk 
-        architecture: x64 
-    - name: runmerunner clean, build, test & package
-      run: mvn -pl runmerunner clean package 
-    - name: songsservlet clean, build, test & package
-      run: mvn -pl songsservlet clean package 
+        architecture: x64
     - name: songsWS clean, build, test & package
       run: mvn -pl songsWS clean package 
     - name: create timestamp file
