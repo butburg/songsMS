@@ -87,7 +87,8 @@ public class User {
         }
         String returnToken = token.toString();
         setToken(returnToken);
-        //setToken("postman");
+        //TODO remove general key
+        setToken("postman");
         return this.token;
     }
 

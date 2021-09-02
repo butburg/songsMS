@@ -88,9 +88,6 @@ public class DBSongListDAO implements ISongListDAO {
                 if (songList.getName() != null) {
                     songListNew.setName(songList.getName());
                 }
-                if (songList.getOwnerId() != null) {
-                    songListNew.setOwnerId(songList.getOwnerId());
-                }
                 if (songList.getSongList() != null) {
                     songListNew.setSongList(songList.getSongList());
                 }

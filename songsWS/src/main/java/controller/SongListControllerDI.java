@@ -155,7 +155,6 @@ public class SongListControllerDI {
     // Eingabeformat JSON
     // Update nur, wenn songList id in URL gleich „id“ in Payload
     // Wenn Update erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
-
     @PostMapping(path = "/{id}", consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> updateSongList(@RequestBody SongList songList, @PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         if (tokenToAuthUser(authToken) == null) {
