@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
 	<!-- parent pom -->
-    <!-- edwin in allen poms, Verzeichnisse, .java-Files anpassen -->
-    <groupId>htwb.ai.edwin</groupId>
+    <!-- butburg in allen poms, Verzeichnisse, .java-Files anpassen -->
+    <groupId>htwb.ai.butburg</groupId>
     <artifactId>modules</artifactId>
     <packaging>pom</packaging>
 	<version>1.0</version>

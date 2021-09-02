@@ -1,7 +1,7 @@
 INSERT INTO User (userId, firstname, lastname, password) VALUES ('mmuster', 'Maxime', 'Muster', 'pass1234');
 INSERT INTO User (userid, firstname, lastname, password) VALUES ('eschuler','Elena','Schuler','pass1234');
-INSERT INTO User (userid, firstname, lastname, password) VALUES ('ewiese','Edwin','Wiese','pass1234');
-INSERT INTO User (userid, firstname, lastname, password) VALUES ('psaal','Philipp','Saal','pass1234');
+INSERT INTO User (userid, firstname, lastname, password) VALUES ('eneuman','Erwin','Neumann','pass1234');
+INSERT INTO User (userid, firstname, lastname, password) VALUES ('psalto','Phine','Salto','pass1234');
 
 INSERT INTO Song (id, title, artist, label, released) VALUES (1, 'We Built This City','Starship','Grunt/RCA',1985);
 INSERT INTO Song (id, title, artist, label, released) VALUES (2, 'Sussudio','Phil Collins','Virgin',1985);

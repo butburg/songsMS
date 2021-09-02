@@ -45,7 +45,7 @@ public class SongControllerDI {
         return user;
     }
 
-    // GET http://localhost:8080/songsWS-sevenfour/rest/songs/1
+    // GET http://localhost:8080/songsWS-butburg/rest/songs/1
     // Ausgabeformat JSON und XML
     // rest/songs/1 schickt Song mit id = 1 zurück, 1 <= id <= n
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
@@ -63,7 +63,7 @@ public class SongControllerDI {
 
     }
 
-    // GET http://localhost:8080/songsWS-sevenfour/rest/songs
+    // GET http://localhost:8080/songsWS-butburg/rest/songs
     // Ausgabeformat JSON und XML
     // rest/songs schickt alle Songs zurück
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})

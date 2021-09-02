@@ -94,7 +94,7 @@ public class SongListControllerDI {
     }
 
 
-    // GET http://localhost:8080/songsWS-sevenfour/rest/songLists/1
+    // GET http://localhost:8080/songsWS-butburg/rest/songLists/1
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongList(
