@@ -6,8 +6,8 @@
     <modelVersion>4.0.0</modelVersion>
 
 	<!-- parent pom -->
-    <!-- sevenfour in allen poms, Verzeichnisse, .java-Files anpassen -->
-    <groupId>htwb.ai.sevenfour</groupId>
+    <!-- edwin in allen poms, Verzeichnisse, .java-Files anpassen -->
+    <groupId>htwb.ai.edwin</groupId>
     <artifactId>modules</artifactId>
     <packaging>pom</packaging>
 	<version>1.0</version>
