@@ -1,0 +1,2 @@
+INSERT INTO Song (id, title, artist, label, released) VALUES (1, 'We Built This City','Starship','Grunt/RCA',1985);
+INSERT INTO Song (id, title, artist, label, released) VALUES (2, 'Sussudio','Phil Collins','Virgin',1985);
