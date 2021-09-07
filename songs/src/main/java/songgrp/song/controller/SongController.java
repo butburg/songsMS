@@ -30,16 +30,24 @@ public class SongController {
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSong(@PathVariable(value = "id") Integer id) {
-        Song song = songRepository.findById(id).get();
-        return new ResponseEntity<Object>(song, HttpStatus.OK);
+        try {
+            Song song = songRepository.findById(id).get();
+            return new ResponseEntity<Object>(song, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // GET all songs http://localhost:8080/songs
     // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<List<Song>> getAllSongs() {
-        List<Song> songs = (List) songRepository.findAll();
-        return new ResponseEntity<List<Song>>(songs, HttpStatus.OK);
+        try {
+            List<Song> songs = (List) songRepository.findAll();
+            return new ResponseEntity<List<Song>>(songs, HttpStatus.OK);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<List<Song>>(HttpStatus.NOT_FOUND);
+        }
     }
 
     // POST new song http://localhost:8080/songs
@@ -49,10 +57,14 @@ public class SongController {
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<Object> addSong(@RequestBody Song song) {
         if (song.getTitle() != null && !song.getTitle().isEmpty()) {
-            Integer id = songRepository.save(song).getId();
-            HttpHeaders header = new HttpHeaders();
-            header.setLocation(URI.create("/songs/" + id));
-            return new ResponseEntity<Object>(song, header, HttpStatus.CREATED);
+            try {
+                Integer id = songRepository.save(song).getId();
+                HttpHeaders header = new HttpHeaders();
+                header.setLocation(URI.create("/songs/" + id));
+                return new ResponseEntity<Object>(song, header, HttpStatus.CREATED);
+            } catch (IllegalArgumentException ex) {
+                return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+            }
         } else {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
@@ -68,7 +80,7 @@ public class SongController {
             try {
                 songRepository.save(song);
                 return new ResponseEntity<Object>(song, HttpStatus.NO_CONTENT);
-            } catch (EntityNotFoundException ex) {
+            } catch (IllegalArgumentException ex) {
                 return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
             }
         } else {
@@ -80,12 +92,16 @@ public class SongController {
     // wenn Song vorhanden und Löschen erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
     @DeleteMapping(value = "/{id}")
     public ResponseEntity<Object> deleteSong(@PathVariable(value = "id") Integer id) {
-        songRepository.deleteById(id);
+        try {
+            songRepository.deleteById(id);
+        } catch (IllegalArgumentException ex) {
+            return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        }
         return new ResponseEntity<Object>(HttpStatus.NO_CONTENT);
     }
 
     @DeleteMapping
-    public ResponseEntity<Song> deleteWrongPath() {
-        return new ResponseEntity<Song>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> deleteWrongPath() {
+        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
     }
 }
