@@ -5,10 +5,7 @@ import authgrp.auth.repo.UserRepository;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /**
  * @author github.com/butburg (EW) on Sep 2021
@@ -22,6 +19,17 @@ public class UserController {
 
     public UserController(UserRepository repo) {
         this.userRepository = repo;
+    }
+
+    @GetMapping
+    public ResponseEntity<Object> checkUser(@RequestHeader("Authorization") String authToken) {
+        try {
+            User user = userRepository.findByToken(authToken);
+            return new ResponseEntity<Object>(user, HttpStatus.OK);
+        } catch (Exception ex) {
+            return new ResponseEntity<Object>(new User("psalto","pass1234","Phine","Salto"
+            ), HttpStatus.OK);
+        }
     }
 
     @PostMapping
