@@ -5,12 +5,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import songgrp.song.exception.BadRequestException;
 import songgrp.song.exception.ResourceNotFoundException;
-import songgrp.song.model.Song;
 import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
-import songgrp.song.repo.SongRepository;
 
 import java.net.URI;
 
