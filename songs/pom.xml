@@ -11,7 +11,7 @@
     </parent>
 
     <groupId>songgrp</groupId>
-    <artifactId>song</artifactId>
+    <artifactId>songs</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>song</name>
     <description>Song service</description>
