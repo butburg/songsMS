@@ -1,12 +1,15 @@
 package songgrp.song.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.SongList;
+import songgrp.song.model.User;
 import songgrp.song.repo.SongListRepository;
 
 import java.net.URI;
@@ -21,17 +24,35 @@ public class SongListController {
 
     private final SongListRepository songListRepository;
 
+    @Autowired
+    private RestTemplate restTemplate;
+
     public SongListController(SongListRepository repo) {
         this.songListRepository = repo;
     }
 
+    private User authorizeUser(String authToken) {
+        User u = restTemplate.getForObject("http://auth:8081/auth/",User.class);
+        return u;
+    }
+
+
     // GET one songlist http://localhost:8080/songLists/1
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public SongList getSongList(@PathVariable(value = "id") Integer id) {
+    public SongList getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
+
+
+        if (authorizeUser(authToken) == null) {
+            throw new ResourceNotFoundException("Songlist", "id", id);
+        }
+
         return songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
+
     }
+
+
 
     // GET all songlists http://localhost:8080/songLists
     // Ausgabeformat JSON und XML
