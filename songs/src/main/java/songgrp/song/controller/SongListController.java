@@ -21,8 +21,8 @@ public class SongListController {
 
     private final SongListRepository songListRepository;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    //@Autowired
+    //private RestTemplate restTemplate;
 
     public SongListController(SongListRepository repo) {
         this.songListRepository = repo;
@@ -31,10 +31,12 @@ public class SongListController {
     private User authorizeUser(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
-        HttpEntity entity = new HttpEntity(headers);
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+
+        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<User> response = restTemplate.exchange(
-                "http://auth:8081/auth/", HttpMethod.GET, entity, User.class);
+                "http://localhost:8081/auth", HttpMethod.GET, entity, User.class);
         return response.getBody();
     }
 
@@ -46,6 +48,7 @@ public class SongListController {
         if (authorizeUser(authToken) == null) {
             throw new ResourceNotFoundException("Songlist", "id", id);
         }
+
 
         return songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));

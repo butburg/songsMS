@@ -24,11 +24,10 @@ public class UserController {
     @GetMapping
     public ResponseEntity<Object> checkUser(@RequestHeader("Authorization") String authToken) {
         try {
-            User user = userRepository.findByToken(authToken);
+            User user = userRepository.findByTokenLike(authToken);
             return new ResponseEntity<Object>(user, HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<Object>(new User("psalto","pass1234","Phine","Salto"
-            ), HttpStatus.OK);
+            return new ResponseEntity<Object>("Not Found", HttpStatus.NOT_FOUND);
         }
     }
 
