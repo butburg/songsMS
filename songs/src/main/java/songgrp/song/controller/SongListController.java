@@ -1,10 +1,10 @@
 package songgrp.song.controller;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
 import songgrp.song.exception.ResourceNotFoundException;
+import songgrp.song.exception.UnauthorizedException;
 import songgrp.song.model.SongList;
 import songgrp.song.model.User;
 import songgrp.song.repo.SongListRepository;
@@ -45,9 +45,11 @@ public class SongListController {
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public SongList getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
-        if (authorizeUser(authToken) == null) {
-            throw new ResourceNotFoundException("Songlist", "id", id);
+        User AUser = authorizeUser(authToken);
+        if (AUser == null) {
+            throw new UnauthorizedException("Songlist", "id", id);
         }
+
         //TODO nur erlaubte songsLists anzeigen, in allen Methoden integrieren
         return songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
@@ -57,7 +59,11 @@ public class SongListController {
     // GET all songlists http://localhost:8080/songLists
     // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public Iterable<SongList> getAllSongLists() {
+    public Iterable<SongList> getAllSongLists(@RequestHeader("Authorization") String authToken) {
+        User AUser = authorizeUser(authToken);
+        if (AUser == null) {
+            throw new UnauthorizedException("Songlist", "id", 0);
+        }
         return songListRepository.findAll();
     }
 
@@ -66,7 +72,13 @@ public class SongListController {
     // „title“-Attribute darf nicht leer sein, wenn erfolgreich, legt neuen Songlist an,
     // schickt Statuscode 201 und URI (/songs/) zur neuen Ressource im „Location“-Header zurück
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<Object> addSongList(@RequestBody SongList songList) {
+    public ResponseEntity<Object> addSongList(
+            @RequestBody SongList songList,
+            @RequestHeader("Authorization") String authToken) {
+        User AUser = authorizeUser(authToken);
+        if (AUser == null) {
+            throw new UnauthorizedException("Songlist", "id", 0);
+        }
         if (songList.getName() != null && !songList.getName().isEmpty()) {
             SongList newSongList = songListRepository.save(songList);
             HttpHeaders header = new HttpHeaders();
@@ -80,7 +92,13 @@ public class SongListController {
     // DELETE a songlist by id
     // wenn Song vorhanden und Löschen erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
     @DeleteMapping(value = "/{id}")
-    public ResponseEntity<Object> deleteSongList(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<Object> deleteSongList(
+            @PathVariable(value = "id") Integer id,
+            @RequestHeader("Authorization") String authToken) {
+        User AUser = authorizeUser(authToken);
+        if (AUser == null) {
+            throw new UnauthorizedException("Songlist", "id", id);
+        }
         SongList songList = songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
         songListRepository.delete(songList);
