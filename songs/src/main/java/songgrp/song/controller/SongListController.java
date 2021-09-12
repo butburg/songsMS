@@ -48,8 +48,7 @@ public class SongListController {
         if (authorizeUser(authToken) == null) {
             throw new ResourceNotFoundException("Songlist", "id", id);
         }
-
-
+        //TODO nur erlaubte songsLists anzeigen, in allen Methoden integrieren
         return songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
     }
