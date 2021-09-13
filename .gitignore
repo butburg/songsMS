@@ -1,5 +1,5 @@
 #reports
-/coverageReports/
+/.coverageReports/
 
 # eclipse
 .DS_Store

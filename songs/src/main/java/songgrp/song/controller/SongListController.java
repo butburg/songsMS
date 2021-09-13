@@ -35,7 +35,7 @@ public class SongListController {
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         ResponseEntity<User> response = restTemplate.exchange(
-                "http://localhost:8081/auth", HttpMethod.GET, entity, User.class);
+                "http://auth/auth", HttpMethod.GET, entity, User.class);
         return response.getBody();
     }
 
