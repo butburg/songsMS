@@ -21,13 +21,6 @@ public class User {
         this.lastname = lastname;
     }
 
-    public User(String userId, String password) {
-        this.userId = userId;
-        this.password = password;
-        this.firstname = "null";
-        this.lastname = "null";
-    }
-
     public User() {
     }
 

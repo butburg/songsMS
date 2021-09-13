@@ -1,3 +1,6 @@
+#reports
+/coverageReports/
+
 # eclipse
 .DS_Store
 .classpath

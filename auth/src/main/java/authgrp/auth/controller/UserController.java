@@ -25,9 +25,10 @@ public class UserController {
     public ResponseEntity<Object> checkUser(@RequestHeader("Authorization") String authToken) {
         try {
             User user = userRepository.findByTokenLike(authToken);
+            if (user == null) throw new NullPointerException("No user with token" + authToken + "!");
             return new ResponseEntity<Object>(user, HttpStatus.OK);
         } catch (Exception ex) {
-            return new ResponseEntity<Object>("Not Found", HttpStatus.NOT_FOUND);
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
     }
 
