@@ -44,15 +44,23 @@ public class SongListController {
     // GET one songlist http://localhost:8080/songLists/1
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public SongList getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
+    public Object getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         User AUser = authorizeUser(authToken);
         if (AUser == null) {
             throw new UnauthorizedException("Songlist", "id", id);
         }
 
-        //TODO nur erlaubte songsLists anzeigen, in allen Methoden integrieren
-        return songListRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
+        try {
+            SongList requestedSongList = songListRepository.findById(id).get();
+            if (AUser.getUserId().equals(requestedSongList.getOwnerId()) || !requestedSongList.isPrivate()) {
+                return requestedSongList;
+            } else {
+                return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
+            }
+        } catch (Exception e) {
+            throw new ResourceNotFoundException("Songlist", "id", id);
+        }
+
     }
 
 
@@ -88,6 +96,9 @@ public class SongListController {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    //TODO Put song list
+
 
     // DELETE a songlist by id
     // wenn Song vorhanden und Löschen erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
