@@ -1,5 +1,6 @@
 package songgrp.song.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -21,8 +22,8 @@ public class SongListController {
 
     private final SongListRepository songListRepository;
 
-    //@Autowired
-    //private RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
     public SongListController(SongListRepository repo) {
         this.songListRepository = repo;
@@ -32,8 +33,6 @@ public class SongListController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        RestTemplate restTemplate = new RestTemplate();
 
         ResponseEntity<User> response = restTemplate.exchange(
                 "http://localhost:8081/auth", HttpMethod.GET, entity, User.class);

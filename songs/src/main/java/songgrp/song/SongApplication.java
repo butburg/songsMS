@@ -10,10 +10,10 @@ import org.springframework.web.client.RestTemplate;
 @EnableEurekaClient
 public class SongApplication {
 
-    @Bean
-    public RestTemplate getRestTemplate() {
-        return new RestTemplate();
-    }
+        @Bean
+        public RestTemplate getRestTemplate() {
+            return new RestTemplate();
+        }
 
     public static void main(String[] args) {
         SpringApplication.run(SongApplication.class, args);
