@@ -1,12 +1,13 @@
 package songgrp.song.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.*;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import songgrp.song.exception.UnauthorizedException;
+import songgrp.song.Authorization;
 import songgrp.song.model.SongList;
-import songgrp.song.model.User;
-import songgrp.song.repo.SongRepository;
+import songgrp.song.repo.SongListRepository;
 import songgrp.song.service.SongListService;
 
 /**
@@ -15,23 +16,13 @@ import songgrp.song.service.SongListService;
 
 @RestController
 @RequestMapping("/songLists")
-public class SongListController {
+public class SongListController extends Authorization {
 
     @Autowired
     private final SongListService songListService;
 
-    public SongListController(SongRepository repo) {
+    public SongListController(SongListRepository repo) {
         this.songListService = new SongListService(repo);
-    }
-
-    private User authorizeUser(String authToken) {
-        HttpHeaders headers = new HttpHeaders();
-        headers.set("Authorization", authToken);
-        HttpEntity<String> entity = new HttpEntity<>(headers);
-
-        ResponseEntity<User> response = restTemplate.exchange(
-                "http://auth/auth", HttpMethod.GET, entity, User.class);
-        return response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
     }
 
 
@@ -39,11 +30,12 @@ public class SongListController {
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
-        User aUser = authorizeUser(authToken);
-        if (aUser == null) {
-            throw new UnauthorizedException("Songlist", "id", id);
+        try {
+            return songListService.getSongList(id, authorizeUser(authToken));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
-        return songListService.getSongList(id, aUser);
     }
 
 
@@ -51,13 +43,12 @@ public class SongListController {
     // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getAllSongLists(@RequestHeader("Authorization") String authToken) {
-        User aUser = authorizeUser(authToken);
-        if (aUser == null) {
-            throw new UnauthorizedException("Songlist", "id", 0);
+        try {
+            return songListService.getAllSongLists(authorizeUser(authToken));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
-
-        return songListService.getAllSongLists(aUser);
-
     }
 
     // POST new songlist http://localhost:8080/songLists
@@ -68,11 +59,12 @@ public class SongListController {
     public ResponseEntity<Object> addSongList(
             @RequestBody SongList songList,
             @RequestHeader("Authorization") String authToken) {
-        User aUser = authorizeUser(authToken);
-        if (aUser == null) {
-            throw new UnauthorizedException("Songlist", "id", 0);
+        try {
+            return songListService.addSongList(songList, authorizeUser(authToken));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
-        return songListService.addSongList(songList);
     }
 
     //TODO Put song list
@@ -84,11 +76,12 @@ public class SongListController {
     public ResponseEntity<Object> deleteSongList(
             @PathVariable(value = "id") Integer id,
             @RequestHeader("Authorization") String authToken) {
-        User aUser = authorizeUser(authToken);
-        if (aUser == null) {
-            throw new UnauthorizedException("Songlist", "id", id);
+        try {
+            return songListService.deleteSongList(id, authorizeUser(authToken));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
-        return songListService.deleteSongList(id);
     }
 
     @DeleteMapping

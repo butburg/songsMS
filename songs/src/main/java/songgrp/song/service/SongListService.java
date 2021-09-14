@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.SongList;
 import songgrp.song.model.User;
+import songgrp.song.repo.SongListRepository;
 import songgrp.song.repo.SongRepository;
 
 import java.net.URI;
@@ -18,9 +19,9 @@ import java.net.URI;
 @Service
 public class SongListService {
 
-    private final SongRepository songListRepository;
+    private final SongListRepository songListRepository;
 
-    public SongListService(SongRepository songListRepository) {
+    public SongListService(SongListRepository songListRepository) {
         this.songListRepository = songListRepository;
     }
 
@@ -39,7 +40,7 @@ public class SongListService {
         return new ResponseEntity<Object>(songListRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> addSongList(SongList songListToAdd) {
+    public ResponseEntity<Object> addSongList(SongList songListToAdd, User user) {
         //TODO check which user added the songlist
         if (songListToAdd.getName() != null && !songListToAdd.getName().isEmpty()) {
             SongList newSongList = songListRepository.save(songListToAdd);
@@ -73,7 +74,7 @@ public class SongListService {
         }
     }*/
 
-    public ResponseEntity<Object> deleteSongList(Integer id) {
+    public ResponseEntity<Object> deleteSongList(Integer id, User user) {
         //TODO only user can delete his own list!
         SongList songList = songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
