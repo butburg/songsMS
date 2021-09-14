@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.Song;
-import songgrp.song.model.User;
 import songgrp.song.repo.SongRepository;
 
 import java.net.URI;
@@ -24,17 +23,17 @@ public class SongService {
         this.songRepository = songRepository;
     }
 
-    public ResponseEntity<Object> getSong(User user, Integer id) {
+    public ResponseEntity<Object> getSong(Integer id) {
         Song song = songRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
         return new ResponseEntity<Object>(song, HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> getAllSong(User user) {
+    public ResponseEntity<Object> getAllSong() {
         return new ResponseEntity<Object>(songRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> addSong(User user, Song songToAdd) {
+    public ResponseEntity<Object> addSong(Song songToAdd) {
         if (songToAdd.getTitle() != null && !songToAdd.getTitle().isEmpty()) {
             Song newSong = songRepository.save(songToAdd);
             HttpHeaders header = new HttpHeaders();
@@ -46,7 +45,7 @@ public class SongService {
     }
 
 
-    public ResponseEntity<Object> updateSong(User user, Integer id, Song songToPut) {
+    public ResponseEntity<Object> updateSong(Integer id, Song songToPut) {
         Song song = songRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
         if (songToPut.getTitle() != null && !songToPut.getTitle().isEmpty()) {
@@ -67,7 +66,7 @@ public class SongService {
         }
     }
 
-    public ResponseEntity<Object> deleteSong(User user, Integer id) {
+    public ResponseEntity<Object> deleteSong(Integer id) {
         Song song = songRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
         songRepository.delete(song);

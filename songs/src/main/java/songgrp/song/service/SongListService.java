@@ -8,7 +8,6 @@ import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.SongList;
 import songgrp.song.model.User;
 import songgrp.song.repo.SongListRepository;
-import songgrp.song.repo.SongRepository;
 
 import java.net.URI;
 
@@ -26,21 +25,24 @@ public class SongListService {
     }
 
 
-    public ResponseEntity<Object> getSongList(Integer id, User aUser) {
+    public ResponseEntity<Object> getSongList(User user, Integer id) {
         SongList requestedSongList = songListRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
-        if (aUser.getUserId().equals(requestedSongList.getOwnerId())
+        if (!requestedSongList.getOwnerId().equals(user.getUserId())) {
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
+        if (user.getUserId().equals(requestedSongList.getOwnerId())
                 || !requestedSongList.isPrivate()) {
             return new ResponseEntity<Object>(requestedSongList, HttpStatus.OK);
         } else return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
     }
 
-    public ResponseEntity<Object> getAllSongLists(User aUser) {
+    public ResponseEntity<Object> getAllSongLists(User user) {
         //TODO check which songlists for user are visible
         return new ResponseEntity<Object>(songListRepository.findAll(), HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> addSongList(SongList songListToAdd, User user) {
+    public ResponseEntity<Object> addSongList(User user, SongList songListToAdd) {
         //TODO check which user added the songlist
         if (songListToAdd.getName() != null && !songListToAdd.getName().isEmpty()) {
             SongList newSongList = songListRepository.save(songListToAdd);
@@ -53,32 +55,33 @@ public class SongListService {
     }
 
 
-    /*public ResponseEntity<Object> updateSongList(Integer id, SongList songListToPut) {
-        SongList songList = songListRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("SongList", "id", id));
-        if (songListToPut.getTitle() != null && !songListToPut.getTitle().isEmpty()) {
-            songList.setTitle(songListToPut.getTitle());
-
-            if (songListToPut.getArtist() != null) {
-                songList.setArtist(songListToPut.getArtist());
-            }
-            if (songListToPut.getLabel() != null) {
-                songList.setLabel(songListToPut.getLabel());
-            }
-            if (songListToPut.getReleased() != null) {
-                songList.setReleased(songListToPut.getReleased());
-            }
-            return new ResponseEntity<Object>(songListRepository.save(songList), HttpStatus.OK);
-        } else {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+    public ResponseEntity<Object> updateSongList(User user, Integer id, SongList songListToPut) {
+        SongList songListToUpdate = songListRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
+        if (!songListToPut.getOwnerId().equals(user.getUserId())) {
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
-    }*/
 
-    public ResponseEntity<Object> deleteSongList(Integer id, User user) {
-        //TODO only user can delete his own list!
+        if (songListToPut.getName() != null) {
+            songListToUpdate.setName(songListToPut.getName());
+        }
+        if (songListToPut.getSongList() != null) {
+            songListToUpdate.setSongList(songListToPut.getSongList());
+        }
+        songListToUpdate.setPrivate(songListToPut.isPrivate());
+
+        return new ResponseEntity<Object>(songListRepository.save(songListToUpdate), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Object> deleteSongList(User user, Integer id) {
         SongList songList = songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
+        if (!songList.getOwnerId().equals(user.getUserId())) {
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
         songListRepository.delete(songList);
         return ResponseEntity.noContent().build();
     }
+
+
 }

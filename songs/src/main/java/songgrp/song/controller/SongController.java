@@ -33,7 +33,8 @@ public class SongController extends Authorization {
             @RequestHeader("Authorization") String authToken,
             @PathVariable(value = "id") Integer id) {
         try {
-            return songService.getSong(authorizeUser(authToken), id);
+            authorizeUser(authToken);
+            return songService.getSong(id);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -47,7 +48,8 @@ public class SongController extends Authorization {
     getAllSongs(
             @RequestHeader("Authorization") String authToken) {
         try {
-            return songService.getAllSong(authorizeUser(authToken));
+            authorizeUser(authToken);
+            return songService.getAllSong();
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -64,7 +66,8 @@ public class SongController extends Authorization {
             @RequestHeader("Authorization") String authToken,
             @RequestBody Song songToAdd) {
         try {
-            return songService.addSong(authorizeUser(authToken), songToAdd);
+            authorizeUser(authToken);
+            return songService.addSong(songToAdd);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -82,7 +85,8 @@ public class SongController extends Authorization {
             @PathVariable(value = "id") Integer id,
             @RequestBody Song songToPut) {
         try {
-            return songService.updateSong(authorizeUser(authToken), id, songToPut);
+            authorizeUser(authToken);
+            return songService.updateSong(id, songToPut);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -97,7 +101,8 @@ public class SongController extends Authorization {
             @RequestHeader("Authorization") String authToken,
             @PathVariable(value = "id") Integer id) {
         try {
-            return songService.deleteSong(authorizeUser(authToken), id);
+            authorizeUser(authToken);
+            return songService.deleteSong(id);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);

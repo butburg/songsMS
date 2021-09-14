@@ -31,7 +31,7 @@ public class SongListController extends Authorization {
     @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         try {
-            return songListService.getSongList(id, authorizeUser(authToken));
+            return songListService.getSongList(authorizeUser(authToken), id);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -60,7 +60,7 @@ public class SongListController extends Authorization {
             @RequestBody SongList songList,
             @RequestHeader("Authorization") String authToken) {
         try {
-            return songListService.addSongList(songList, authorizeUser(authToken));
+            return songListService.addSongList(authorizeUser(authToken), songList);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
@@ -68,7 +68,19 @@ public class SongListController extends Authorization {
     }
 
     //TODO Put song list
-
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<Object>
+    updateSongList(
+            @RequestHeader("Authorization") String authToken,
+            @PathVariable(value = "id") Integer id,
+            @RequestBody SongList songListToPut) {
+        try {
+            return songListService.updateSongList(authorizeUser(authToken), id, songListToPut);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
+    }
 
     // DELETE a songlist by id
     // wenn Song vorhanden und Löschen erfolgreich, dann nur Statuscode 204 zurückschicken, ansonsten 400 bzw. 404
@@ -77,7 +89,7 @@ public class SongListController extends Authorization {
             @PathVariable(value = "id") Integer id,
             @RequestHeader("Authorization") String authToken) {
         try {
-            return songListService.deleteSongList(id, authorizeUser(authToken));
+            return songListService.deleteSongList(authorizeUser(authToken), id);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);

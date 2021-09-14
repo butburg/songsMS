@@ -1,8 +1,10 @@
 package songgrp.song.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpHeaders;
@@ -15,6 +17,7 @@ import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
 import songgrp.song.repo.SongRepository;
 
+import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -26,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @TestPropertySource(locations = "/test.properties")
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-class SongListControllerTest {
+class SongControllerTest {
     private MockMvc mockMvc;
 
     @Autowired
