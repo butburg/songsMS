@@ -36,9 +36,8 @@ public class SongListController {
 
         ResponseEntity<User> response = restTemplate.exchange(
                 "http://auth/auth", HttpMethod.GET, entity, User.class);
-        return response.getBody();
+        return response.getStatusCode() == HttpStatus.OK ? response.getBody() : null;
     }
-
 
     // GET one songlist http://localhost:8080/songLists/1
     // Ausgabeformat JSON und XML
