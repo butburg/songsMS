@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import songgrp.song.model.SongList;
-import songgrp.song.repo.SongListRepository;
 import songgrp.song.repo.SongRepository;
 
 import java.util.List;
@@ -31,7 +30,7 @@ class SongListControllerTest {
     @Autowired
     private SongRepository songRepo;
     @Autowired
-    private SongListRepository playlistRepo;
+    private SongRepository playlistRepo;
 
     @BeforeEach
     public void setupMockMvc() {
