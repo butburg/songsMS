@@ -67,7 +67,6 @@ public class SongListController extends Authorization {
         }
     }
 
-    //TODO Put song list
     @PutMapping(value = "/{id}")
     public ResponseEntity<Object>
     updateSongList(
