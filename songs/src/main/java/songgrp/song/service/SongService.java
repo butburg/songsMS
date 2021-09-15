@@ -4,7 +4,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.Song;
 import songgrp.song.repo.SongRepository;
 
@@ -24,9 +23,9 @@ public class SongService {
     }
 
     public ResponseEntity<Object> getSong(Integer id) {
-        Song song = songRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
-        return new ResponseEntity<Object>(song, HttpStatus.OK);
+        var song = songRepository.findById(id);
+        if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<Object>(song.get(), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> getAllSong() {
@@ -38,7 +37,7 @@ public class SongService {
             Song newSong = songRepository.save(songToAdd);
             HttpHeaders header = new HttpHeaders();
             header.setLocation(URI.create("/songs/" + newSong.getId()));
-            return new ResponseEntity<Object>(header, HttpStatus.CREATED);
+            return new ResponseEntity<Object>(songToAdd, header, HttpStatus.CREATED);
         } else {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
@@ -46,8 +45,10 @@ public class SongService {
 
 
     public ResponseEntity<Object> updateSong(Integer id, Song songToPut) {
-        Song song = songRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
+        var val = songRepository.findById(id);
+        if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        Song song = val.get();
+
         if (songToPut.getTitle() != null && !songToPut.getTitle().isEmpty()) {
             song.setTitle(songToPut.getTitle());
 
@@ -67,9 +68,9 @@ public class SongService {
     }
 
     public ResponseEntity<Object> deleteSong(Integer id) {
-        Song song = songRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
-        songRepository.delete(song);
+        var song = songRepository.findById(id);
+        if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        songRepository.delete(song.get());
         return ResponseEntity.noContent().build();
     }
 }
