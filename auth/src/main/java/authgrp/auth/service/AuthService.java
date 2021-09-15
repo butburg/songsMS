@@ -22,7 +22,7 @@ public class AuthService {
     public ResponseEntity<Object> checkUser(String authToken) {
         User user = userRepository.findByTokenLike(authToken);
         if (user == null) return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<Object>(user, HttpStatus.OK);
+        return new ResponseEntity<Object>(user.getUserId(), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> loginUser(User searchedUser) {

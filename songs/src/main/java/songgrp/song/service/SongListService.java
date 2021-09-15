@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.SongList;
-import songgrp.song.model.User;
 import songgrp.song.repo.SongListRepository;
 
 import java.net.URI;
@@ -25,23 +24,23 @@ public class SongListService {
     }
 
 
-    public ResponseEntity<Object> getSongList(User user, Integer id) {
-        SongList requestedSongList = songListRepository.findByIdAndOwnerIdOrIsPrivate(id,user.getUserId(),false)
+    public ResponseEntity<Object> getSongList(String userId, Integer id) {
+        SongList requestedSongList = songListRepository.findByIdAndOwnerIdOrIsPrivate(id, userId, false)
                 .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
-        if (user.getUserId().equals(requestedSongList.getOwnerId())
+        if (userId.equals(requestedSongList.getOwnerId())
                 || !requestedSongList.isPrivate()) {
             return new ResponseEntity<Object>(requestedSongList, HttpStatus.OK);
         } else return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
 
     }
 
-    public ResponseEntity<Object> getAllSongLists(User user) {
-        return new ResponseEntity<Object>(songListRepository.findByOwnerIdOrIsPrivate(user.getUserId(), false), HttpStatus.OK);
+    public ResponseEntity<Object> getAllSongLists(String userId) {
+        return new ResponseEntity<Object>(songListRepository.findByOwnerIdOrIsPrivate(userId, false), HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> addSongList(User user, SongList songListToAdd) {
+    public ResponseEntity<Object> addSongList(String userId, SongList songListToAdd) {
         if (songListToAdd.getName() != null && !songListToAdd.getName().isEmpty()) {
-            songListToAdd.setOwnerId(user.getUserId());
+            songListToAdd.setOwnerId(userId);
             SongList newSongList = songListRepository.save(songListToAdd);
             HttpHeaders header = new HttpHeaders();
             header.setLocation(URI.create("/songLists/" + newSongList.getId()));
@@ -52,10 +51,10 @@ public class SongListService {
     }
 
 
-    public ResponseEntity<Object> updateSongList(User user, Integer id, SongList songListToPut) {
+    public ResponseEntity<Object> updateSongList(String userId, Integer id, SongList songListToPut) {
         SongList songListToUpdate = songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
-        if (!songListToPut.getOwnerId().equals(user.getUserId())) {
+        if (!songListToPut.getOwnerId().equals(userId)) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
 
@@ -70,10 +69,10 @@ public class SongListService {
         return new ResponseEntity<Object>(songListRepository.save(songListToUpdate), HttpStatus.OK);
     }
 
-    public ResponseEntity<Object> deleteSongList(User user, Integer id) {
+    public ResponseEntity<Object> deleteSongList(String userId, Integer id) {
         SongList songList = songListRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Songlist", "id", id));
-        if (!songList.getOwnerId().equals(user.getUserId())) {
+        if (!songList.getOwnerId().equals(userId)) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
         songListRepository.delete(songList);
