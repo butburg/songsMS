@@ -22,6 +22,7 @@ public class SongService {
         this.songRepository = songRepository;
     }
 
+
     public ResponseEntity<Object> getSong(Integer id) {
         var song = songRepository.findById(id);
         if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
@@ -43,13 +44,12 @@ public class SongService {
         }
     }
 
-
     public ResponseEntity<Object> updateSong(Integer id, Song songToPut) {
         var val = songRepository.findById(id);
         if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         Song song = val.get();
 
-        if (songToPut.getTitle() != null && !songToPut.getTitle().isEmpty()) {
+        if (songToPut.getTitle() != null && !songToPut.getTitle().isEmpty() && songToPut.getId().equals(id)) {
             song.setTitle(songToPut.getTitle());
 
             if (songToPut.getArtist() != null) {
@@ -61,7 +61,11 @@ public class SongService {
             if (songToPut.getReleased() != null) {
                 song.setReleased(songToPut.getReleased());
             }
-            return new ResponseEntity<Object>(songRepository.save(song), HttpStatus.OK);
+            songRepository.save(song);
+
+            HttpHeaders header = new HttpHeaders();
+            header.setLocation(URI.create("/songs/" + id));
+            return new ResponseEntity<Object>(header, HttpStatus.NO_CONTENT);
         } else {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
