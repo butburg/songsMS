@@ -25,17 +25,19 @@ public class SongListService {
 
 
     public ResponseEntity<Object> getSongList(String userId, Integer id) {
-        SongList requestedSongList = songListRepository.findByIdAndOwnerIdOrIsPrivate(id, userId, false)
-                .orElseThrow(() -> new ResourceNotFoundException("Song", "id", id));
+        var val = songListRepository.findByIdOrderById(id);
+        if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        SongList requestedSongList = val.get();
+
         if (userId.equals(requestedSongList.getOwnerId())
                 || !requestedSongList.isPrivate()) {
             return new ResponseEntity<Object>(requestedSongList, HttpStatus.OK);
-        } else return new ResponseEntity<Object>(HttpStatus.FORBIDDEN);
+        } else return new ResponseEntity<Object>(HttpStatus.NOT_FOUND); //FORBIDDEN
 
     }
 
     public ResponseEntity<Object> getAllSongLists(String userId) {
-        return new ResponseEntity<Object>(songListRepository.findByOwnerIdOrIsPrivate(userId, false), HttpStatus.OK);
+        return new ResponseEntity<Object>(songListRepository.findByOwnerIdOrIsPrivateOrderById(userId, false), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> addSongList(String userId, SongList songListToAdd) {
