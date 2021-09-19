@@ -22,7 +22,7 @@ public class SongList {
     @JoinTable(name = "SongList_Song",
             joinColumns = {@JoinColumn(name = "songList_id", referencedColumnName = "id")},
             inverseJoinColumns = {@JoinColumn(name = "song_id", referencedColumnName = "id")})
-    @OrderBy(value="id")
+    @OrderBy(value = "id")
     private Set<Song> songList = new HashSet<>();
 
     public SongList() {

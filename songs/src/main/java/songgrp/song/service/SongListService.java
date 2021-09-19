@@ -1,10 +1,10 @@
 package songgrp.song.service;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import songgrp.song.exception.ResourceNotFoundException;
 import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
 
@@ -41,31 +41,38 @@ public class SongListService {
     }
 
     public ResponseEntity<Object> addSongList(String userId, SongList songListToAdd) {
-        if (songListToAdd.getName() != null && !songListToAdd.getName().isEmpty()) {
-            songListToAdd.setOwnerId(userId);
+        if (songListToAdd.getName() == null || songListToAdd.getName().isEmpty()) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+        songListToAdd.setOwnerId(userId);
+        try {
             SongList newSongList = songListRepository.save(songListToAdd);
             HttpHeaders header = new HttpHeaders();
             header.setLocation(URI.create("/songLists/" + newSongList.getId()));
             return new ResponseEntity<Object>(newSongList, header, HttpStatus.CREATED);
-        } else {
+        } catch (DataIntegrityViolationException e) {
             return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
         }
     }
 
 
     public ResponseEntity<Object> updateSongList(String userId, Integer id, SongList songListToPut) {
+        if (!songListToPut.getId().equals(id)) {
+            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        }
+
         var val = songListRepository.findById(id);
         if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         SongList songListToUpdate = val.get();
 
-        if (!songListToPut.getOwnerId().equals(userId)) {
+        if (!songListToPut.getOwnerId().equals(userId) || !songListToUpdate.getOwnerId().equals(userId)) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
 
-        if (songListToPut.getName() != null) {
+        if (songListToPut.getName() != null && !songListToPut.getName().isEmpty()) {
             songListToUpdate.setName(songListToPut.getName());
         }
-        if (songListToPut.getSongList() != null) {
+        if (!songListToPut.getSongList().isEmpty()) {
             songListToUpdate.setSongList(songListToPut.getSongList());
         }
         songListToUpdate.setPrivate(songListToPut.isPrivate());
