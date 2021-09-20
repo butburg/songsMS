@@ -19,6 +19,7 @@
         <module>songs</module>
         <module>auth</module>
         <module>registry</module>
+        <module>gateway</module>
     </modules>
 
 </project>
