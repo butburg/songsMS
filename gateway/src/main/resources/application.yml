@@ -18,3 +18,7 @@ spring:
           uri: lb://AUTH
           predicates:
             - Path=/auth/**
+        - id: lyrics
+          uri: lb://LYRICS
+          predicates:
+            - Path=/lyrics/**

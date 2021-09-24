@@ -8,7 +8,7 @@ package lyricsgrp.model;
 public class Lyrics {
 
     private Integer lyrics_id;
-    private String lyrics_body  ;
+    private String lyrics_body;
     private String script_tracking_url;
     private String lyrics_copyright;
     private String updated_time;
