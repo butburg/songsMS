@@ -17,6 +17,7 @@
 
     <modules>
         <module>songs</module>
+        <module>lyrics</module>
         <module>auth</module>
         <module>registry</module>
         <module>gateway</module>
