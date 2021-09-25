@@ -35,7 +35,7 @@ public class LyricService {
                 url
                 , Lyric.class);
         if (lyricsResponse != null && lyricsResponse.getLyricId() != 0) {
-            return new ResponseEntity<>(lyricsResponse.getLyric(), HttpStatus.OK);
+            return new ResponseEntity<>(lyricsResponse, HttpStatus.OK);
         } else
             return new ResponseEntity<>("No results by:" + url, HttpStatus.NOT_FOUND);
     }
