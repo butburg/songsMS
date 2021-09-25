@@ -1,4 +1,4 @@
-package lyricsgrp;
+package lyricgrp;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,10 +21,10 @@ import static org.springframework.http.MediaType.TEXT_PLAIN;
  */
 @SpringBootApplication(exclude = {DataSourceAutoConfiguration.class})
 @EnableEurekaClient
-public class LyricsApplication {
+public class LyricApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(LyricsApplication.class, args);
+        SpringApplication.run(LyricApplication.class, args);
     }
 
     @Bean
@@ -33,18 +33,11 @@ public class LyricsApplication {
         return new RestTemplate();
     }
 
-
+    //external api consumption
     @Primary
     @Bean
     RestTemplate restTemplate() {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        // support "text/plain"
-        converter.setSupportedMediaTypes(Arrays.asList(TEXT_PLAIN, APPLICATION_JSON));
-
-        RestTemplate template = new RestTemplate();
-        template.getMessageConverters().add(converter);
-
-        return template;
+        return new RestTemplate();
     }
 
 }

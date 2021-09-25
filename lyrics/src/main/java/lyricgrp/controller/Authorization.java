@@ -1,4 +1,4 @@
-package lyricsgrp.controller;
+package lyricgrp.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
