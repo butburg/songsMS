@@ -24,7 +24,6 @@ public class User {
     public User() {
     }
 
-    // Getter-Methods
     public String getUserId() {
         return userId;
     }
@@ -44,8 +43,6 @@ public class User {
     public String getFirstName() {
         return firstname;
     }
-
-    //Setter-Methods
 
     public void setFirstName(String firstname) {
         this.firstname = firstname;

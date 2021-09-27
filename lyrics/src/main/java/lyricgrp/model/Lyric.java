@@ -1,85 +1,84 @@
 package lyricgrp.model;
 
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
-
-import javax.xml.bind.annotation.XmlRootElement;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 
 /**
  * @author Edwin W (HTW) on Mai 2021
  */
-@XmlRootElement
+@JacksonXmlRootElement
 public class Lyric {
 
-    @JacksonXmlProperty
-    private Integer LyricId;
-    @JacksonXmlProperty
-    private String Lyric;
-    @JacksonXmlProperty
-    private String LyricUrl;
-    @JacksonXmlProperty
-    private String LyricSong;
-    @JacksonXmlProperty
-    private String LyricArtist;
+    @JacksonXmlProperty(localName = "LyricId")
+    private Integer lyricId;
+    @JacksonXmlProperty(localName = "Lyric")
+    private String lyric;
+    @JacksonXmlProperty(localName = "LyricUrl")
+    private String lyricUrl;
+    @JacksonXmlProperty(localName = "LyricSong")
+    private String lyricSong;
+    @JacksonXmlProperty(localName = "LyricArtist")
+    private String lyricArtist;
 
     public Lyric() {
     }
 
     public Lyric(Integer lyricId, String lyric, String lyricUrl, String lyricSong, String lyricArtist) {
-        LyricId = lyricId;
-        Lyric = lyric;
-        LyricUrl = lyricUrl;
-        LyricSong = lyricSong;
-        LyricArtist = lyricArtist;
+        this.lyricId = lyricId;
+        this.lyric = lyric;
+        this.lyricUrl = lyricUrl;
+        this.lyricSong = lyricSong;
+        this.lyricArtist = lyricArtist;
     }
 
     public Integer getLyricId() {
-        return LyricId;
+        return lyricId;
     }
 
     public void setLyricId(Integer lyricId) {
-        LyricId = lyricId;
+        this.lyricId = lyricId;
     }
 
     public String getLyric() {
-        return Lyric;
+        return lyric;
     }
 
     public void setLyric(String lyric) {
-        Lyric = lyric;
+        this.lyric = lyric;
     }
 
     public String getLyricUrl() {
-        return LyricUrl;
+        return lyricUrl;
     }
 
     public void setLyricUrl(String lyricUrl) {
-        LyricUrl = lyricUrl;
+        this.lyricUrl = lyricUrl;
     }
 
     public String getLyricSong() {
-        return LyricSong;
+        return lyricSong;
     }
 
     public void setLyricSong(String lyricSong) {
-        LyricSong = lyricSong;
+        this.lyricSong = lyricSong;
     }
 
     public String getLyricArtist() {
-        return LyricArtist;
+        return lyricArtist;
     }
 
     public void setLyricArtist(String lyricArtist) {
-        LyricArtist = lyricArtist;
+        this.lyricArtist = lyricArtist;
     }
 
     @Override
     public String toString() {
         return "Lyric{" +
-                "LyricId='" + LyricId + '\'' +
-                ", Lyric='" + Lyric + '\'' +
-                ", LyricUrl='" + LyricUrl + '\'' +
-                ", LyricSong='" + LyricSong + '\'' +
-                ", LyricArtist='" + LyricArtist + '\'' +
+                "LyricId='" + lyricId + '\'' +
+                ", Lyric='" + lyric + '\'' +
+                ", LyricUrl='" + lyricUrl + '\'' +
+                ", LyricSong='" + lyricSong + '\'' +
+                ", LyricArtist='" + lyricArtist + '\'' +
                 '}';
     }
 }

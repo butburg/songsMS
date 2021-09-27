@@ -22,7 +22,7 @@ import java.util.Set;
 public class SongListService {
 
     private final SongListRepository songListRepository;
-    private SongRepository songRepository;
+    private final SongRepository songRepository;
 
     public SongListService(SongListRepository songListRepository, SongRepository songRepository) {
         this.songListRepository = songListRepository;
@@ -32,49 +32,49 @@ public class SongListService {
 
     public ResponseEntity<Object> getSongList(String userId, Integer id) {
         var val = songListRepository.findByIdOrderById(id);
-        if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        if (val.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         SongList requestedSongList = val.get();
 
         if (userId.equals(requestedSongList.getOwnerId())
                 || !requestedSongList.isPrivate()) {
-            return new ResponseEntity<Object>(requestedSongList, HttpStatus.OK);
-        } else return new ResponseEntity<Object>(HttpStatus.NOT_FOUND); //FORBIDDEN
+            return new ResponseEntity<>(requestedSongList, HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.NOT_FOUND); //FORBIDDEN
 
     }
 
     public ResponseEntity<Object> getAllSongLists(String userId) {
-        return new ResponseEntity<Object>(songListRepository.findByOwnerIdOrIsPrivateOrderById(userId, false), HttpStatus.OK);
+        return new ResponseEntity<>(songListRepository.findByOwnerIdOrIsPrivateOrderById(userId, false), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> addSongList(String userId, SongList songListToAdd) {
         if (songListToAdd.getName() == null || songListToAdd.getName().isEmpty()) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         songListToAdd.setOwnerId(userId);
         try {
             SongList newSongList = songListRepository.save(songListToAdd);
             HttpHeaders header = new HttpHeaders();
             header.setLocation(URI.create("/songLists/" + newSongList.getId()));
-            return new ResponseEntity<Object>(newSongList, header, HttpStatus.CREATED);
+            return new ResponseEntity<>(newSongList, header, HttpStatus.CREATED);
         } catch (DataIntegrityViolationException e) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
 
 
     public ResponseEntity<Object> updateSongList(String userId, Integer id, SongList songListToPut) {
         if (!songListToPut.getId().equals(id)) {
-            return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
 
         var val = songListRepository.findById(id);
-        if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        if (val.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         SongList songListToUpdate = val.get();
 
         System.out.println(songListToUpdate + " null? " + songListToPut);
 
         if (!songListToUpdate.getOwnerId().equals(userId)) {
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         if (songListToPut.getName() != null && !songListToPut.getName().isEmpty()) {
@@ -100,16 +100,16 @@ public class SongListService {
         }
         songListToUpdate.setPrivate(songListToPut.isPrivate());
 
-        return new ResponseEntity<Object>(songListRepository.save(songListToUpdate), HttpStatus.OK);
+        return new ResponseEntity<>(songListRepository.save(songListToUpdate), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> deleteSongList(String userId, Integer id) {
         var val = songListRepository.findById(id);
-        if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+        if (val.isEmpty()) return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         SongList songList = val.get();
 
         if (!songList.getOwnerId().equals(userId)) {
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         songListRepository.delete(songList);
         return ResponseEntity.noContent().build();

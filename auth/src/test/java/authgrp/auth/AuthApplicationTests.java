@@ -3,7 +3,6 @@ package authgrp.auth;
 import authgrp.auth.controller.UserController;
 import authgrp.auth.model.User;
 import authgrp.auth.repo.UserRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -98,11 +97,7 @@ class AuthApplicationTests {
                 .andReturn();
 
         String receivedUserStr = result.getResponse().getContentAsString();
-        System.out.println(receivedUserStr + "TEST");
-        ObjectMapper mapper = new ObjectMapper();
-        User receivedUser = mapper.readValue(receivedUserStr, User.class);
-
-        assertEquals(receivedUser.toString(), userToCheck.toString());
+        assertEquals(receivedUserStr, userToCheck.getUserId());
     }
 
     @Test
@@ -132,11 +127,15 @@ class AuthApplicationTests {
     }
 
     @Test
-    void userConstructorTest() {
+    void userBasicTest() {
         User u = new User("userId", "password", "firstname", "lastname");
         assertEquals(u.getUserId(), "userId");
         assertEquals(u.getPassword(), "password");
         assertEquals(u.getFirstName(), "firstname");
         assertEquals(u.getLastName(), "lastname");
+        u.setFirstName("fistnameNew");
+        u.setLastName("lastnameNew");
+        assertEquals(u.getFirstName(), "fistnameNew");
+        assertEquals(u.getLastName(), "lastnameNew");
     }
 }

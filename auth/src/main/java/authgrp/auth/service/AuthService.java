@@ -21,8 +21,8 @@ public class AuthService {
 
     public ResponseEntity<Object> checkUser(String authToken) {
         User user = userRepository.findByTokenLike(authToken);
-        if (user == null) return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
-        return new ResponseEntity<Object>(user.getUserId(), HttpStatus.OK);
+        if (user == null) return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        return new ResponseEntity<>(user.getUserId(), HttpStatus.OK);
     }
 
     public ResponseEntity<Object> loginUser(User searchedUser) {
@@ -32,7 +32,7 @@ public class AuthService {
 
         if (user == null || user.getUserId() == null ||
                 user.getPassword() == null) {
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         if (user.getUserId().equals(searchedUserId) && user.getPassword().equals(searchedUserPw)) {
@@ -40,9 +40,9 @@ public class AuthService {
             HttpHeaders authHeader = new HttpHeaders();
             authHeader.add("Authorization", token);
             userRepository.save(user);
-            return new ResponseEntity<Object>(token, authHeader, HttpStatus.OK);
+            return new ResponseEntity<>(token, authHeader, HttpStatus.OK);
         } else {
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 }

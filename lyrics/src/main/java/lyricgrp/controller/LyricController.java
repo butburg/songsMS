@@ -27,8 +27,6 @@ public class LyricController extends Authorization {
         this.lyricService = new LyricService();
     }
 
-    // GET one song /songs/1
-    // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object>
     getLyric(

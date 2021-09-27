@@ -14,6 +14,5 @@ import java.util.Optional;
 @Repository
 public interface SongListRepository extends CrudRepository<SongList, Integer> {
     Iterable<SongList> findByOwnerIdOrIsPrivateOrderById(String userId, boolean isPrivate);
-
     Optional<SongList> findByIdOrderById(Integer id);
 }

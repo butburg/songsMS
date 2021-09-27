@@ -27,7 +27,8 @@ public class SongController extends Authorization {
 
     // GET one song /songs/1
     // Ausgabeformat JSON und XML
-    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object>
     getSong(
             @RequestHeader("Authorization") String authToken,
@@ -37,13 +38,14 @@ public class SongController extends Authorization {
             return songService.getSong(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     // GET one song /songs/1/lyric
     // Ausgabeformat JSON und XML
-    @GetMapping(value = "/{id}/lyrics", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/{id}/lyrics",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object>
     getLyricForSong(
             @RequestHeader("Authorization") String authToken,
@@ -53,7 +55,7 @@ public class SongController extends Authorization {
             return songService.getLyricForSong(id, authToken);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -68,7 +70,7 @@ public class SongController extends Authorization {
             return songService.getAllSong();
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -86,7 +88,7 @@ public class SongController extends Authorization {
             return songService.addSong(songToAdd);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -105,7 +107,7 @@ public class SongController extends Authorization {
             return songService.updateSong(id, songToPut);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -121,13 +123,13 @@ public class SongController extends Authorization {
             return songService.deleteSong(id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @DeleteMapping
     public ResponseEntity<Object>
     deleteWrongPath() {
-        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }

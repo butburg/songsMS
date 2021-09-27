@@ -8,71 +8,71 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 @JsonIgnoreProperties({"LyricId"})
 public class Lyric {
 
-    private Integer LyricId;
-    private String Lyric;
-    private String LyricUrl;
-    private String LyricSong;
-    private String LyricArtist;
+    private Integer lyricId;
+    private String lyric;
+    private String lyricUrl;
+    private String lyricSong;
+    private String lyricArtist;
 
     public Lyric() {
     }
 
     public Lyric(Integer lyricId, String lyric, String lyricUrl, String lyricSong, String lyricArtist) {
-        LyricId = lyricId;
-        Lyric = lyric;
-        LyricUrl = lyricUrl;
-        LyricSong = lyricSong;
-        LyricArtist = lyricArtist;
+        this.lyricId = lyricId;
+        this.lyric = lyric;
+        this.lyricUrl = lyricUrl;
+        this.lyricSong = lyricSong;
+        this.lyricArtist = lyricArtist;
     }
 
     public Integer getLyricId() {
-        return LyricId;
+        return lyricId;
     }
 
     public void setLyricId(Integer lyricId) {
-        LyricId = lyricId;
+        this.lyricId = lyricId;
     }
 
     public String getLyric() {
-        return Lyric;
+        return lyric;
     }
 
     public void setLyric(String lyric) {
-        Lyric = lyric;
+        this.lyric = lyric;
     }
 
     public String getLyricUrl() {
-        return LyricUrl;
+        return lyricUrl;
     }
 
     public void setLyricUrl(String lyricUrl) {
-        LyricUrl = lyricUrl;
+        this.lyricUrl = lyricUrl;
     }
 
     public String getLyricSong() {
-        return LyricSong;
+        return lyricSong;
     }
 
     public void setLyricSong(String lyricSong) {
-        LyricSong = lyricSong;
+        this.lyricSong = lyricSong;
     }
 
     public String getLyricArtist() {
-        return LyricArtist;
+        return lyricArtist;
     }
 
     public void setLyricArtist(String lyricArtist) {
-        LyricArtist = lyricArtist;
+        this.lyricArtist = lyricArtist;
     }
 
     @Override
     public String toString() {
         return "Lyric{" +
-                "LyricId='" + LyricId + '\'' +
-                ", Lyric='" + Lyric + '\'' +
-                ", LyricUrl='" + LyricUrl + '\'' +
-                ", LyricSong='" + LyricSong + '\'' +
-                ", LyricArtist='" + LyricArtist + '\'' +
+                "LyricId='" + lyricId + '\'' +
+                ", Lyric='" + lyric + '\'' +
+                ", LyricUrl='" + lyricUrl + '\'' +
+                ", LyricSong='" + lyricSong + '\'' +
+                ", LyricArtist='" + lyricArtist + '\'' +
                 '}';
     }
 }

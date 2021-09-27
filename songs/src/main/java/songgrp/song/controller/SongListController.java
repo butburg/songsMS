@@ -10,7 +10,6 @@ import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
 import songgrp.song.repo.SongRepository;
 import songgrp.song.service.SongListService;
-import songgrp.song.service.SongService;
 
 /**
  * @author github.com/butburg (EW) on Sep 2021
@@ -31,13 +30,14 @@ public class SongListController extends Authorization {
 
     // GET one songlist http://localhost:8080/songLists/1
     // Ausgabeformat JSON und XML
-    @GetMapping(value = "/{id}", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    @GetMapping(value = "/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object> getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         try {
             return songListService.getSongList(authorizeUser(authToken), id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -50,7 +50,7 @@ public class SongListController extends Authorization {
             return songListService.getAllSongLists(authorizeUser(authToken));
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -66,7 +66,7 @@ public class SongListController extends Authorization {
             return songListService.addSongList(authorizeUser(authToken), songList);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -80,7 +80,7 @@ public class SongListController extends Authorization {
             return songListService.updateSongList(authorizeUser(authToken), id, songListToPut);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
@@ -94,12 +94,12 @@ public class SongListController extends Authorization {
             return songListService.deleteSongList(authorizeUser(authToken), id);
         } catch (Exception e) {
             e.printStackTrace();
-            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 
     @DeleteMapping
     public ResponseEntity<Object> deleteWrongPath() {
-        return new ResponseEntity<Object>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
