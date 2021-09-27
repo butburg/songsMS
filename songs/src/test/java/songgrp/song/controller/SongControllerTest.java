@@ -17,7 +17,6 @@ import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
 import songgrp.song.repo.SongRepository;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

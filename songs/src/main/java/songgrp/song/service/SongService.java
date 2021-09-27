@@ -1,9 +1,12 @@
 package songgrp.song.service;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.HttpServerErrorException;
+import org.springframework.web.client.RestTemplate;
+import songgrp.song.model.Lyric;
 import songgrp.song.model.Song;
 import songgrp.song.repo.SongRepository;
 
@@ -17,16 +20,40 @@ import java.net.URI;
 public class SongService {
 
     private final SongRepository songRepository;
+    @Autowired
+    RestTemplate restTemplate;
 
     public SongService(SongRepository songRepository) {
         this.songRepository = songRepository;
     }
 
-
     public ResponseEntity<Object> getSong(Integer id) {
         var song = songRepository.findById(id);
         if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         return new ResponseEntity<Object>(song.get(), HttpStatus.OK);
+    }
+
+    public ResponseEntity<Object> getLyricForSong(Integer id, String authToken) {
+        var song = songRepository.findById(id);
+        if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", authToken);
+        headers.set("Artist", song.get().getArtist());
+        headers.set("Song", song.get().getTitle());
+        HttpEntity<String> entity = new HttpEntity<>(headers);
+        try {
+            Lyric lyric = restTemplate.exchange("http://lyrics/lyrics", HttpMethod.GET, entity, Lyric.class).getBody();
+            return new ResponseEntity<Object>(lyric, HttpStatus.OK);
+
+        } catch (HttpClientErrorException | HttpServerErrorException exc) {
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Content-Type", "text/plain");
+            return new ResponseEntity<Object>(
+                    "No matching lyrics found for: " + song.get().getTitle(),
+                    responseHeaders,
+                    exc.getStatusCode());
+        }
     }
 
     public ResponseEntity<Object> getAllSong() {
@@ -77,4 +104,5 @@ public class SongService {
         songRepository.delete(song.get());
         return ResponseEntity.noContent().build();
     }
+
 }

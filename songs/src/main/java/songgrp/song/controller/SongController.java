@@ -41,6 +41,22 @@ public class SongController extends Authorization {
         }
     }
 
+    // GET one song /songs/1/lyric
+    // Ausgabeformat JSON und XML
+    @GetMapping(value = "/{id}/lyrics", produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
+    public ResponseEntity<Object>
+    getLyricForSong(
+            @RequestHeader("Authorization") String authToken,
+            @PathVariable(value = "id") Integer id) {
+        try {
+            authorizeUser(authToken);
+            return songService.getLyricForSong(id, authToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
+        }
+    }
+
     // GET all songs /songs
     // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
