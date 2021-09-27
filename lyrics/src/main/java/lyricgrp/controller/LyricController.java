@@ -30,13 +30,13 @@ public class LyricController extends Authorization {
     // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
     public ResponseEntity<Object>
-    getLyrics(
+    getLyric(
             @RequestHeader("Authorization") String authToken,
             @RequestHeader("Artist") String artistName,
             @RequestHeader("Song") String songName) {
         try {
             //authorizeUser(authToken);
-            return lyricService.getLyrics(artistName, songName);
+            return lyricService.getLyric(artistName, songName);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);

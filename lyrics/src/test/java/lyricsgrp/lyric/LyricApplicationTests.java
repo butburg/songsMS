@@ -1,13 +1,13 @@
-package lyricsgrp.lyrics;
+package lyricsgrp.lyric;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class LyricsApplicationTests {
+class LyricApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }

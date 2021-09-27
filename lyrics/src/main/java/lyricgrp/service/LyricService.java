@@ -18,13 +18,12 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class LyricService {
 
+    @Autowired
+    RestTemplate getRestTemplate;
     @Value("${api.root_domain}")
     private String rootDomain;
 
-    @Autowired
-    RestTemplate getRestTemplate;
-
-    public ResponseEntity<Object> getLyrics(String artistName, String songName) {
+    public ResponseEntity<Object> getLyric(String artistName, String songName) {
         //build proper url format
         String artistNameUrl = URLEncoder.encode(artistName, StandardCharsets.UTF_8);
         String songNameUrl = URLEncoder.encode(songName, StandardCharsets.UTF_8);
@@ -37,7 +36,7 @@ public class LyricService {
         if (lyricsResponse != null && lyricsResponse.getLyricId() != 0) {
             return new ResponseEntity<>(lyricsResponse, HttpStatus.OK);
         } else
-            return new ResponseEntity<>("No results by:" + url, HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("No results by: " + url, HttpStatus.NOT_FOUND);
     }
 
 }
