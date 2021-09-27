@@ -33,6 +33,9 @@ public class LyricService {
         String songNameUrl = URLEncoder.encode(songName, StandardCharsets.UTF_8);
         String url = rootDomain + "SearchLyricDirect?artist=" + artistNameUrl + "&Song=" + songNameUrl + "";
 
+        if (artistNameUrl.length() <= 1 || songNameUrl.length() <= 1)
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+
         System.out.println("LyricService will access: " + url);
 
         Lyric lyricsResponse = restTemplateExt.getForObject(
