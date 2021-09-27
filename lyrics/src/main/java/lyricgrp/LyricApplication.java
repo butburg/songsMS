@@ -1,5 +1,6 @@
 package lyricgrp;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
@@ -23,6 +24,7 @@ public class LyricApplication {
 
     @Bean
     @LoadBalanced
+    @Qualifier("internalServices")
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
     }
@@ -30,6 +32,7 @@ public class LyricApplication {
     //external api consumption
     @Primary
     @Bean
+    @Qualifier("externalServices")
     RestTemplate restTemplate() {
         return new RestTemplate();
     }

@@ -1,6 +1,8 @@
 package songgrp.song.service;
 
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -43,7 +45,7 @@ public class SongService {
         headers.set("Song", song.get().getTitle());
         HttpEntity<String> entity = new HttpEntity<>(headers);
         try {
-            Lyric lyric = restTemplate.exchange("http://lyrics/lyrics", HttpMethod.GET, entity, Lyric.class).getBody();
+            Lyric lyric = restTemplate.exchange("http://lyrics-service/lyrics", HttpMethod.GET, entity, Lyric.class).getBody();
             return new ResponseEntity<Object>(lyric, HttpStatus.OK);
 
         } catch (HttpClientErrorException | HttpServerErrorException exc) {
@@ -101,7 +103,13 @@ public class SongService {
     public ResponseEntity<Object> deleteSong(Integer id) {
         var song = songRepository.findById(id);
         if (song.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
-        songRepository.delete(song.get());
+        try {
+            songRepository.delete(song.get());
+        } catch (DataIntegrityViolationException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<Object>(HttpStatus.LOCKED);
+        }
+
         return ResponseEntity.noContent().build();
     }
 

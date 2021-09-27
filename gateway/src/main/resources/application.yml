@@ -1,5 +1,9 @@
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8090/eureka
 server:
-  port: 9090
+  port: 8080
 spring:
   application:
     name: gateway-service
@@ -7,18 +11,18 @@ spring:
     gateway:
       routes:
         - id: songs
-          uri: lb://SONGS
+          uri: lb://SONGS-SERVICE
           predicates:
             - Path=/songs/**
         - id: songLists
-          uri: lb://SONGS
+          uri: lb://SONGS-SERVICE
           predicates:
             - Path=/songLists/**
         - id: auth
-          uri: lb://AUTH
+          uri: lb://AUTH-SERVICE
           predicates:
             - Path=/auth/**
         - id: lyrics
-          uri: lb://LYRICS
+          uri: lb://LYRICS-SERVICE
           predicates:
             - Path=/lyrics/**

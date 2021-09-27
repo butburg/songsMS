@@ -1,6 +1,7 @@
-package lyricgrp.controller;
+package lyricgrp;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -12,15 +13,16 @@ import org.springframework.web.client.RestTemplate;
 public abstract class Authorization {
 
     @Autowired
-    RestTemplate restTemplate;
+    @Qualifier("internalServices")
+    RestTemplate restTemplateInt;
 
-    public String authorizeUser(String authToken) throws Exception {
+    public String authorizeUser(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        return restTemplate.exchange(
-                "http://auth/auth", HttpMethod.GET, entity, String.class).getBody();
+        return restTemplateInt.exchange(
+                "http://auth-service/auth", HttpMethod.GET, entity, String.class).getBody();
     }
 }
 

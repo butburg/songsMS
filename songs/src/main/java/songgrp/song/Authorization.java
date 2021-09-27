@@ -14,13 +14,13 @@ public abstract class Authorization {
     @Autowired
     RestTemplate restTemplate;
 
-    public String authorizeUser(String authToken) throws Exception {
+    public String authorizeUser(String authToken) {
         HttpHeaders headers = new HttpHeaders();
         headers.set("Authorization", authToken);
         HttpEntity<String> entity = new HttpEntity<>(headers);
 
         return restTemplate.exchange(
-                "http://auth/auth", HttpMethod.GET, entity, String.class).getBody();
+                "http://auth-service/auth", HttpMethod.GET, entity, String.class).getBody();
     }
 }
 

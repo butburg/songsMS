@@ -1,5 +1,6 @@
 package lyricgrp.controller;
 
+import lyricgrp.Authorization;
 import lyricgrp.service.LyricService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -35,7 +36,7 @@ public class LyricController extends Authorization {
             @RequestHeader("Artist") String artistName,
             @RequestHeader("Song") String songName) {
         try {
-            //authorizeUser(authToken);
+            authorizeUser(authToken);
             return lyricService.getLyric(artistName, songName);
         } catch (Exception e) {
             e.printStackTrace();
