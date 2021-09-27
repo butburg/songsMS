@@ -8,7 +8,9 @@ import org.springframework.web.bind.annotation.*;
 import songgrp.song.Authorization;
 import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
+import songgrp.song.repo.SongRepository;
 import songgrp.song.service.SongListService;
+import songgrp.song.service.SongService;
 
 /**
  * @author github.com/butburg (EW) on Sep 2021
@@ -21,8 +23,9 @@ public class SongListController extends Authorization {
     @Autowired
     private final SongListService songListService;
 
-    public SongListController(SongListRepository repo) {
-        this.songListService = new SongListService(repo);
+
+    public SongListController(SongListRepository repo, SongRepository songRepo) {
+        this.songListService = new SongListService(repo, songRepo);
     }
 
 

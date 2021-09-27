@@ -5,10 +5,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import songgrp.song.model.Song;
 import songgrp.song.model.SongList;
 import songgrp.song.repo.SongListRepository;
+import songgrp.song.repo.SongRepository;
 
 import java.net.URI;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * @author github.com/butburg (EW) on Sep 2021
@@ -18,9 +22,11 @@ import java.net.URI;
 public class SongListService {
 
     private final SongListRepository songListRepository;
+    private SongRepository songRepository;
 
-    public SongListService(SongListRepository songListRepository) {
+    public SongListService(SongListRepository songListRepository, SongRepository songRepository) {
         this.songListRepository = songListRepository;
+        this.songRepository = songRepository;
     }
 
 
@@ -65,15 +71,32 @@ public class SongListService {
         if (val.isEmpty()) return new ResponseEntity<Object>(HttpStatus.NOT_FOUND);
         SongList songListToUpdate = val.get();
 
-        if (!songListToPut.getOwnerId().equals(userId) || !songListToUpdate.getOwnerId().equals(userId)) {
+        System.out.println(songListToUpdate + " null? " + songListToPut);
+
+        if (!songListToUpdate.getOwnerId().equals(userId)) {
             return new ResponseEntity<Object>(HttpStatus.UNAUTHORIZED);
         }
 
         if (songListToPut.getName() != null && !songListToPut.getName().isEmpty()) {
             songListToUpdate.setName(songListToPut.getName());
         }
+
         if (!songListToPut.getSongList().isEmpty()) {
-            songListToUpdate.setSongList(songListToPut.getSongList());
+            //custom list process follows here
+            // default would be: songListToUpdate.setSongList(songListToPut.getSongList());
+            Set<Song> songList = new HashSet<>();
+            for (Song song : songListToPut.getSongList()) {
+                try {
+                    if (songRepository.findById(song.getId()).isPresent()) {
+                        songList.add(songRepository.findById(song.getId()).get());
+                    }
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+
+            }
+            songListToUpdate.setSongList(songList);
+            //end
         }
         songListToUpdate.setPrivate(songListToPut.isPrivate());
 
@@ -91,6 +114,4 @@ public class SongListService {
         songListRepository.delete(songList);
         return ResponseEntity.noContent().build();
     }
-
-
 }
