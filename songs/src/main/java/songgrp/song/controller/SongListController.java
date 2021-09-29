@@ -32,7 +32,8 @@ public class SongListController extends Authorization {
     // Ausgabeformat JSON und XML
     @GetMapping(value = "/{id}",
             produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Object> getSongList(@PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
+    public ResponseEntity<Object> getSongList(
+            @PathVariable(value = "id") Integer id, @RequestHeader("Authorization") String authToken) {
         try {
             return songListService.getSongList(authorizeUser(authToken), id);
         } catch (Exception e) {
@@ -41,18 +42,22 @@ public class SongListController extends Authorization {
         }
     }
 
-
-    // GET all songlists http://localhost:8080/songLists
-    // Ausgabeformat JSON und XML
     @GetMapping(produces = {MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE})
-    public ResponseEntity<Object> getAllSongLists(@RequestHeader("Authorization") String authToken) {
+    public ResponseEntity<Object> getAllSongListsByUserId(
+            @RequestHeader("Authorization") String authToken,
+            @RequestParam(required = false, name = "userId") String userIdSearch) {
         try {
-            return songListService.getAllSongLists(authorizeUser(authToken));
+            if(userIdSearch == null){
+                System.out.println("null");
+                return songListService.getAllSongLists(authorizeUser(authToken));
+            }
+            return songListService.getSongListByUserId(authorizeUser(authToken), userIdSearch);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
+
 
     // POST new songlist http://localhost:8080/songLists
     // Eingabeformat JSON

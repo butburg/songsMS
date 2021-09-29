@@ -42,6 +42,14 @@ public class SongListService {
 
     }
 
+    public ResponseEntity<Object> getSongListByUserId(String userId, String userIdSearch) {
+        if (userId.equals(userIdSearch)) {
+            return new ResponseEntity<>(songListRepository.findByOwnerIdOrderById(userIdSearch), HttpStatus.OK);
+        } else if (!userIdSearch.isEmpty()) {
+            return new ResponseEntity<>(songListRepository.findByOwnerIdAndIsPrivateOrderById(userIdSearch, false), HttpStatus.OK);
+        } else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
     public ResponseEntity<Object> getAllSongLists(String userId) {
         return new ResponseEntity<>(songListRepository.findByOwnerIdOrIsPrivateOrderById(userId, false), HttpStatus.OK);
     }
