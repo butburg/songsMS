@@ -1,7 +1,10 @@
 eureka:
   client:
+    registerWithEureka: true
     service-url:
       defaultZone: http://localhost:8090/eureka
+    healthcheck:
+      enabled: true
 server:
   port: 8080
 spring:

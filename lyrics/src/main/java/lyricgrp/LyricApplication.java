@@ -22,8 +22,9 @@ public class LyricApplication {
         SpringApplication.run(LyricApplication.class, args);
     }
 
-    @Bean
+    //tell Spring we are dealing with microservices and will not be using real URLs for our requests
     @LoadBalanced
+    @Bean
     @Qualifier("internalServices")
     public RestTemplate getRestTemplate() {
         return new RestTemplate();
