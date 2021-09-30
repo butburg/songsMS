@@ -35,11 +35,11 @@ public class LyricController extends Authorization {
             @RequestHeader("Song") String songName) {
         try {
             authorizeUser(authToken);
-            return lyricService.getLyric(artistName, songName);
         } catch (Exception e) {
             e.printStackTrace();
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+        return lyricService.getLyric(artistName, songName);
     }
 
 }

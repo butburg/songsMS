@@ -4,9 +4,7 @@ import lyricgrp.model.Lyric;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -37,16 +35,26 @@ public class LyricService {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         System.out.println("LyricService will access: " + url);
+        HttpHeaders headers = new HttpHeaders();
+        HttpEntity<String> entity = new HttpEntity<>(headers);
 
-        Lyric lyricsResponse = restTemplateExt.getForObject(
-                url
-                , Lyric.class);
-        if (lyricsResponse != null && lyricsResponse.getLyricId() != 0) {
-            return new ResponseEntity<>(lyricsResponse, HttpStatus.OK);
-        } else {
+        try {
+            Lyric lyricsResponse = restTemplateExt.exchange(
+                    url
+                    , HttpMethod.GET, entity, Lyric.class).getBody();
+            if (lyricsResponse != null && lyricsResponse.getLyricId() != 0) {
+                return new ResponseEntity<>(lyricsResponse, HttpStatus.OK);
+            } else {
+                HttpHeaders header = new HttpHeaders();
+                header.set("Content-Type", "text/plain");
+                return new ResponseEntity<>("No results by: " + url, header, HttpStatus.NOT_FOUND);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             HttpHeaders header = new HttpHeaders();
             header.set("Content-Type", "text/plain");
             return new ResponseEntity<>("No results by: " + url, header, HttpStatus.NOT_FOUND);
         }
+
     }
 }
